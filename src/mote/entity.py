@@ -18,3 +18,6 @@ class entity:
 		assert name not in self.components
 		self.components[name] = component
 
+	def get_component(self, name):
+		return self.components[name]
+

@@ -2,6 +2,7 @@
 
 import time
 
+from . import entity_mgr
 from .systems import process_input
 
 class world:
@@ -12,14 +13,16 @@ class world:
 
 		self.init()
 		self.init_systems()
+		self.setup_entity_mgr()
 
-		# entity_list
+	def setup_entity_mgr(self):
+		self.entity_mgr = entity_mgr.entity_mgr()
 
 	def init(self):
 		self.last_time = time.perf_counter()
 
 	def init_systems(self):
-		self.add_system('process_input')
+		self.add_system('move')
 
 	def tick(self):
 		now = time.perf_counter()
@@ -31,7 +34,10 @@ class world:
 		self.last_time = now
 
 	def tick_system(self, delta, system):
-		pass
+		entities = self.entity_mgr.get_entities_by_component(system.reads, system.writes)
+
+		for entity in entities:
+			system.tick(delta, entity)
 
 	def add_system(self, name):
 		systems = __import__('systems.%s'%(name), globals(), locals(), (), 1)
@@ -42,4 +48,5 @@ class world:
 		self.systems.append(system)
 
 	def add_entity(self, entity):
-		print('add entity', entity)
+#		print('add entity', entity)
+		self.entity_mgr.add_entity(entity)

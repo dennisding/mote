@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 
 class system:
-	read_components = ()
-	write_components = ()
+	reads = ()
+	writes = ()
 
 	def __init__(self):
 		pass
@@ -13,5 +13,5 @@ class system:
 	def post_update(self):
 		pass
 
-	def update(self, delta, entities):
+	def tick(self, delta, entity):
 		pass
