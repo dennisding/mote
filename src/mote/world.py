@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 
-import time
-
+from . import res_mgr
 from . import entity_mgr
 from .systems import process_input
 
@@ -22,36 +21,35 @@ class world:
 			self.entity_mgr.add_entity_group(system.reads, system.writes)
 
 	def init(self):
-		self.last_time = time.perf_counter()
+		pass
 
 	def init_systems(self):
 		self.add_system('move')
+		self.add_system('model_loader')
+		self.add_system('model_creator')
 		self.add_system('render')
 
 	def tick(self):
-		now = time.perf_counter()
-		delta = now - self.last_time
-
 		self.pre_tick()
 
 		for system in self.systems:
-			self.tick_system(delta, system)
+			self.tick_system(system)
 
 		self.post_tick()
-
-		self.last_time = now
 
 	def pre_tick(self):
 		pass
 
 	def post_tick(self):
 		self.entity_mgr.post_tick()
+		res_mgr.clear_task_result()
 
-	def tick_system(self, delta, system):
-		system.pre_tick()
+	def tick_system(self, system):
+		if not system.pre_tick():
+			return
 
 		for entity in self.entity_mgr.iter_entities(system.reads, system.writes):
-			system.tick(delta, entity)
+			system.tick(entity)
 
 		system.post_tick()
 
@@ -65,6 +63,9 @@ class world:
 
 	def add_entity(self, entity):
 		self.entity_mgr.add_entity(entity)
+
+	def del_entity(self, entity):
+		self.entity_mgr.del_entity(entity)
 
 	def on_entity_changed(self, entity):
 		self.entity_mgr.on_entity_changed(entity)

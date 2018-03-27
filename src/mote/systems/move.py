@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 
+import app
+
 from . import system
 
 class move(system.system):
@@ -9,12 +11,12 @@ class move(system.system):
 	def __init__(self):
 		super(move, self).__init__()
 
-	def tick(self, delta, entity):
+	def tick(self, entity):
 		pos = entity.get_component('pos')
 		speed = entity.get_component('speed')
 
-		pos.x += speed.x * delta
-		pos.y += speed.y * delta
-		pos.z += speed.z * delta
+		pos.x += speed.x * app.delta
+		pos.y += speed.y * app.delta
+		pos.z += speed.z * app.delta
 
 		print('move pos', pos.x, pos.y, pos.z)

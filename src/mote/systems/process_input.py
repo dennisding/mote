@@ -9,5 +9,5 @@ class process_input(system.system):
 	def __init__(self):
 		pass
 
-	def tick(self, delta, entity):
+	def tick(self, entity):
 		pass

@@ -6,6 +6,7 @@ import world
 from mote import entity
 
 camera = None
+counter = 0
 
 def key_callback(key, pressed):
 	zdelta = 0
@@ -28,12 +29,21 @@ def key_callback(key, pressed):
 	else:
 		camera.del_component('speed')
 
+#	global counter
+#	counter += 1
+#	if counter == 4:
+#		world.del_entity(camera)
+#		print('del entity', camera.is_reset(), camera.is_dirty())
+#	if counter == 7:
+#		print('readd entity')
+#		world.add_entity(camera)
+
 def add_camera():
 	global camera
 	camera = entity.entity('camera')
 
 	camera.add_component('pos', 0.1, 0.2, 0.3)
-	camera.add_component('speed', z = 1)
+#	camera.add_component('speed', z = 1)
 
 	world.add_entity(camera)
 
@@ -41,9 +51,8 @@ def add_model():
 	e = entity.entity('model')
 
 	e.add_component('pos')
-	e.add_component('visual')
-	e.add_component('visible')
-#	e.add_component('visual')
+
+	e.add_component('model_loader', res = 'char/test.model')
 
 	world.add_entity(e)
 

@@ -10,6 +10,6 @@ class render(system.system):
 	def post_tick(self):
 		pass
 
-	def tick(self, delta, entity):
+	def tick(self, entity):
 		return
 		print('render!!!!!!!!', entity)

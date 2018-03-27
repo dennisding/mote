@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import sys
+import time
 
 from . import win
 from . import world
@@ -21,20 +22,23 @@ class app:
 
 		self.stop = False
 		self.frame_counter = 0
+		self.delta = 0
 
 		self.init()
 
 		self.key_callback = None
 
 	def init(self):
+		sys.modules['app'] = self
+
 		self.create_win()
 		self.create_world()
 
 		self.init_script()
 
-	def init_script(self):
-		sys.modules['app'] = self
+		self.last_time = time.perf_counter()
 
+	def init_script(self):
 		init_module = __import__('init')
 		init_module.init()
 
@@ -50,16 +54,20 @@ class app:
 		self.start_script()
 
 		while True:
+			now = time.perf_counter()
+			self.delta = now - self.last_time
+
 			self.tick()
 			if self.stop:
 				break
 
 			self.frame_counter += 1
+			self.last_time = now
 
 		self.win.release()
 
 	def create_win(self):
-		self.win = win.win(self, '测试')
+		self.win = win.win(self, 'test')
 		self.win.start()
 
 	def create_world(self):

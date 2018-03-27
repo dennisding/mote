@@ -8,10 +8,10 @@ class system:
 		pass
 
 	def pre_tick(self):
-		pass
+		return True
 
 	def post_tick(self):
 		pass
 
-	def tick(self, delta, entity):
+	def tick(self, entity):
 		pass

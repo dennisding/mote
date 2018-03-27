@@ -11,8 +11,9 @@ class entity:
 
 		self.childs = []
 
+		self.in_world = False
 		self.dirty_flag = 0
-		self.add_component_flag = 0
+		self.reset_flag = 0
 
 	def add_component(self, name, *args, **kwds):
 		components = __import__('components.%s'%(name), globals(), locals(), level = 1)
@@ -21,11 +22,12 @@ class entity:
 
 		component = component_type(*args, **kwds)
 
+		if self.is_in_world() and (name not in self.components):
+			world.on_entity_changed(self)
+
 		self.components[name] = component
 
-		self.add_component_flag = app.frame_counter
-
-		world.on_entity_changed(self)
+		component.add_to_entity(self)
 
 	def get_component(self, name):
 		return self.components[name]
@@ -33,10 +35,23 @@ class entity:
 	def del_component(self, name):
 		self.components.pop(name, None)
 
+		self.set_dirty()
+
+	def set_dirty(self):
 		self.dirty_flag = app.frame_counter
 
 	def is_dirty(self):
 		return self.dirty_flag == app.frame_counter
 
-	def is_add_component(self):
-		return self.add_component_flag == app.frame_counter
+	def reset(self):
+		self.reset_flag = app.frame_counter
+		self.set_dirty()
+
+	def is_reset(self):
+		return self.reset_flag == app.frame_counter
+
+	def set_in_world(self, in_world = True):
+		self.in_world = in_world
+
+	def is_in_world(self):
+		return self.in_world
