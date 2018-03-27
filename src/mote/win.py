@@ -3,7 +3,8 @@
 import glfw
 
 class win:
-	def __init__(self, name, width = 1024, height = 768):
+	def __init__(self, app, name, width = 1024, height = 768):
+		self.app = app
 		self.name = name
 
 		self.width = width
@@ -22,7 +23,15 @@ class win:
 		glfw.make_context_current(self.win)
 
 	def key_callback(self, win, key, scan_code, action, modes):
-		print('key processed!!!', chr(key))
+		callback = self.app.key_callback
+
+		if not callback:
+			return
+
+		if action == glfw.PRESS:
+			callback(chr(key), True)
+		elif action == glfw.RELEASE:
+			callback(chr(key), False)
 
 	def tick(self):
 		if glfw.window_should_close(self.win):

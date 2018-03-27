@@ -16,3 +16,5 @@ class move(system.system):
 		pos.x += speed.x * delta
 		pos.y += speed.y * delta
 		pos.z += speed.z * delta
+
+		print('move pos', pos.x, pos.y, pos.z)

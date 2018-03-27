@@ -6,14 +6,25 @@ from . import win
 from . import world
 from OpenGL.GL import *
 
+def fixed_numpy():
+	import numpy
+
+	numpy.float128 = numpy.float64
+	numpy.complex256 = numpy.complex128
+
+fixed_numpy()
+
 class app:
 	def __init__(self):
 		self.win = None
 		self.world = None
 
 		self.stop = False
+		self.frame_counter = 0
 
 		self.init()
+
+		self.key_callback = None
 
 	def init(self):
 		self.create_win()
@@ -22,6 +33,8 @@ class app:
 		self.init_script()
 
 	def init_script(self):
+		sys.modules['app'] = self
+
 		init_module = __import__('init')
 		init_module.init()
 
@@ -41,10 +54,12 @@ class app:
 			if self.stop:
 				break
 
+			self.frame_counter += 1
+
 		self.win.release()
 
 	def create_win(self):
-		self.win = win.win('测试')
+		self.win = win.win(self, '测试')
 		self.win.start()
 
 	def create_world(self):

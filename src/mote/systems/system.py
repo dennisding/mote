@@ -7,10 +7,10 @@ class system:
 	def __init__(self):
 		pass
 
-	def pre_update(self):
+	def pre_tick(self):
 		pass
 
-	def post_update(self):
+	def post_tick(self):
 		pass
 
 	def tick(self, delta, entity):
