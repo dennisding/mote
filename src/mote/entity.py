@@ -15,6 +15,9 @@ class entity:
 		self.dirty_flag = 0
 		self.reset_flag = 0
 
+	def add_child(self, child):
+		self.childs.append(child)
+
 	def add_component(self, name, *args, **kwds):
 		components = __import__('components.%s'%(name), globals(), locals(), level = 1)
 		module = getattr(components, name)

@@ -39,6 +39,7 @@ def key_callback(key, pressed):
 #		world.add_entity(camera)
 
 def add_camera():
+	# add and del component
 	global camera
 	camera = entity.entity('camera')
 
@@ -47,7 +48,10 @@ def add_camera():
 
 	world.add_entity(camera)
 
+	world.set_camera(camera)
+
 def add_model():
+	# resource loading
 	e = entity.entity('model')
 
 	e.add_component('pos')
@@ -56,10 +60,30 @@ def add_model():
 
 	world.add_entity(e)
 
+def add_gui():
+	# layers
+	e = entity.entity('dialog')
+
+	e.add_component('pos', x = 1)
+	e.add_component('visual')
+	e.add_component('visible')
+
+	child = entity.entity('panel')
+	child.add_component('pos', x = 2)
+	child.add_component('visual')
+	child.add_component('visible')
+
+	e.add_child(child)
+
+	world.add_entity(e)
+
+	world.set_gui_root(e)
+
 def start():
 	print('logic start')
 
 	app.key_callback = key_callback
 
-	add_camera()
-	add_model()
+#	add_camera()
+#	add_model()
+	add_gui()

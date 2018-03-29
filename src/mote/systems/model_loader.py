@@ -46,7 +46,7 @@ class model_loader(system.system):
 
 			res_mgr.set_task_result(task_id, res)
 
-		print('set loading task', task_id)
+		print('add loading task', task_id)
 		res_mgr.add_task(task_id, _loading_task)
 
 	def parse_model_info(self, res):

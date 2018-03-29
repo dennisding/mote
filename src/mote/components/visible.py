@@ -3,4 +3,5 @@
 from . import component
 
 class visible(component.component):
-	pass
+	def __init__(self, value = True):
+		self.value = value

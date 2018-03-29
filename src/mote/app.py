@@ -5,6 +5,8 @@ import time
 
 from . import win
 from . import world
+from .render import renderer
+
 from OpenGL.GL import *
 
 def fixed_numpy():
@@ -33,10 +35,14 @@ class app:
 
 		self.create_win()
 		self.create_world()
+		self.create_renderer()
 
 		self.init_script()
 
 		self.last_time = time.perf_counter()
+
+	def create_renderer(self):
+		self.renderer = renderer.renderer()
 
 	def init_script(self):
 		init_module = __import__('init')
@@ -54,6 +60,7 @@ class app:
 		self.start_script()
 
 		while True:
+			print('new frame===============')
 			now = time.perf_counter()
 			self.delta = now - self.last_time
 
@@ -76,19 +83,18 @@ class app:
 	def tick(self):
 		# process events
 		self.process_events()
-		self.update()
-		self.render()
 
 		self.world.tick()
+
+		self.render()
 
 	def process_events(self):
 		if self.win.process_events():
 			self.stop = True
 
-	def update(self):
-		pass
-
 	def render(self):
+		self.renderer.render(self.world)
+
 		glClearColor(0.3, 0.3, 0.3, 1)
 		glClear(GL_COLOR_BUFFER_BIT)
 

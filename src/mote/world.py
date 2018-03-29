@@ -2,6 +2,8 @@
 
 from . import res_mgr
 from . import entity_mgr
+from . import blackboard
+
 from .systems import process_input
 
 class world:
@@ -21,13 +23,12 @@ class world:
 			self.entity_mgr.add_entity_group(system.reads, system.writes)
 
 	def init(self):
-		pass
+		self.blackboard = blackboard.blackboard()
 
 	def init_systems(self):
 		self.add_system('move')
 		self.add_system('model_loader')
 		self.add_system('model_creator')
-		self.add_system('render')
 
 	def tick(self):
 		self.pre_tick()
@@ -61,6 +62,7 @@ class world:
 		system = system_type()
 		self.systems.append(system)
 
+	# script call
 	def add_entity(self, entity):
 		self.entity_mgr.add_entity(entity)
 
@@ -69,3 +71,6 @@ class world:
 
 	def on_entity_changed(self, entity):
 		self.entity_mgr.on_entity_changed(entity)
+
+	def set_gui_root(self, entity):
+		self.blackboard.gui = entity

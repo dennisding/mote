@@ -29,10 +29,8 @@ class entity_mgr:
 			self.del_entity(child)
 
 	def do_add_entity(self, entity):
-		components = set(entity.components)
-
 		for reads, group in self.groups.items():
-			if components.issuperset(reads): # and components.issuperset(writes):
+			if self.has_components(entity, reads):
 				group.append(entity)
 
 	def post_tick(self):
@@ -54,17 +52,26 @@ class entity_mgr:
 
 		for entity in group:
 			if not entity.is_dirty():
-#				new_group.append(entity)
 				yield entity
 
 				if not entity.is_dirty():
 					new_group.append(entity)
+				elif entity.is_reset():
+					continue
+				else:
+					if self.has_components(entity, reads):
+						new_group.append(entity)
 			else:
-				components = set(entity.components)
-				if components.issuperset(reads): # and components.issuperset(writes):
+				if self.has_components(entity, reads):
 					yield entity
 
 					if not entity.is_reset():
 						new_group.append(entity)
 
 		self.groups[group_id] = new_group
+
+	def has_components(self, entity, components):
+		entity_component = set(entity.components)
+		return entity_component.issuperset(components)
+
+
