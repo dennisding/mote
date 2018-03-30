@@ -32,6 +32,8 @@ class entity:
 
 		component.add_to_entity(self)
 
+		return component
+
 	def get_component(self, name):
 		return self.components[name]
 

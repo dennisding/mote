@@ -48,8 +48,6 @@ def add_camera():
 
 	world.add_entity(camera)
 
-	world.set_camera(camera)
-
 def add_model():
 	# resource loading
 	e = entity.entity('model')
@@ -84,6 +82,6 @@ def start():
 
 	app.key_callback = key_callback
 
-#	add_camera()
-#	add_model()
+	add_camera()
+	add_model()
 	add_gui()

@@ -60,7 +60,6 @@ class app:
 		self.start_script()
 
 		while True:
-			print('new frame===============')
 			now = time.perf_counter()
 			self.delta = now - self.last_time
 
@@ -93,9 +92,9 @@ class app:
 			self.stop = True
 
 	def render(self):
+#		glClearColor(0.3, 0.3, 0.3, 1)
+#		glClear(GL_COLOR_BUFFER_BIT)
+
 		self.renderer.render(self.world)
 
-		glClearColor(0.3, 0.3, 0.3, 1)
-		glClear(GL_COLOR_BUFFER_BIT)
-
-		self.win.swap_buffer()
+#		self.win.swap_buffer()

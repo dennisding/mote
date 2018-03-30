@@ -27,4 +27,4 @@ class renderer:
 			self.render_visual(visual)
 
 	def render_visual(self, visual):
-		print('render visual', visual)
+		return
