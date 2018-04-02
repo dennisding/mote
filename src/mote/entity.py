@@ -3,6 +3,8 @@
 import app
 import world
 
+from . import math3d
+
 class entity:
 	def __init__(self, name):
 		self.name = name
@@ -34,8 +36,32 @@ class entity:
 
 		return component
 
+	def set_parent_transform(self, parent_transform):
+		transform = self.gen_transform(parent_transform)
+
+		visual = self.get_component('visual')
+		if visual:
+			visual.world_transform = transform
+
+		for child in self.childs:
+			child.set_parent_transform(transform)
+
+	def gen_transform(self, parent_transform):
+		pos = self.get_component('pos')
+		scale = self.get_component('scale')
+		rotate = self.get_component('rotate')
+
+		if not (pos or scale or rotate):
+			return parent_transform
+
+		last_transform = None
+		if pos:
+			last_transform = math3d.translation(pos.pos[0], pos.pos[1], pos.pos[2])
+
+		return parent_transform.dot(last_transform)
+
 	def get_component(self, name):
-		return self.components[name]
+		return self.components.get(name)
 
 	def del_component(self, name):
 		self.components.pop(name, None)

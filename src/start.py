@@ -62,7 +62,7 @@ def add_gui():
 	# layers
 	e = entity.entity('dialog')
 
-	e.add_component('pos', x = 1)
+	e.add_component('pos', x = 1, y = 0.5, z = 3)
 	e.add_component('visual')
 	e.add_component('visible')
 

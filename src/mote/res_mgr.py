@@ -3,6 +3,8 @@
 _results = {} # {task_id:res}
 _results2 = {}
 
+_root = 'res/'
+
 def pop_res(task_id):
 	return _results2.pop(task_id) or _results.pop(task_id)
 
@@ -34,4 +36,4 @@ def add_task(task_id, task):
 	task()
 
 def read(name):
-	return open(name, 'rb').read()
+	return open(_root + name, 'rb').read()

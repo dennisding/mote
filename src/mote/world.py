@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+from . import math3d
 from . import res_mgr
 from . import entity_mgr
 from . import blackboard
@@ -39,7 +40,11 @@ class world:
 		self.post_tick()
 
 	def pre_tick(self):
-		pass
+		transform = math3d.matrix()
+
+		# update the pos
+		self.blackboard.scene and self.blackboard.scene.set_parent_transform(transform)
+		self.blackboard.gui and self.blackboard.gui.set_parent_transform(transform)
 
 	def post_tick(self):
 		self.entity_mgr.post_tick()
