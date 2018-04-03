@@ -56,7 +56,7 @@ class entity:
 
 		last_transform = None
 		if pos:
-			last_transform = math3d.translation(pos.pos[0], pos.pos[1], pos.pos[2])
+			last_transform = math3d.translation(pos.value[0], pos.value[1], pos.value[2])
 
 		return parent_transform.dot(last_transform)
 

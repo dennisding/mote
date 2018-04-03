@@ -9,4 +9,4 @@ class pos(component.component):
 	def __init__(self, x = 0, y = 0, z = 0):
 		super(pos, self).__init__()
 
-		self.pos = math3d.vec(x, y, z)
+		self.value = math3d.vec(x, y, z)

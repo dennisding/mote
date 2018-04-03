@@ -5,9 +5,8 @@ import time
 
 from . import win
 from . import world
+from . import res_mgr
 from .render import renderer
-
-from OpenGL.GL import *
 
 def fixed_numpy():
 	import numpy
@@ -63,6 +62,8 @@ class app:
 			now = time.perf_counter()
 			self.delta = now - self.last_time
 
+			self.on_new_frame()
+
 			self.tick()
 			if self.stop:
 				break
@@ -71,6 +72,9 @@ class app:
 			self.last_time = now
 
 		self.win.release()
+
+	def on_new_frame(self):
+		res_mgr.on_new_frame()
 
 	def create_win(self):
 		self.win = win.win(self, 'test')
@@ -92,9 +96,10 @@ class app:
 			self.stop = True
 
 	def render(self):
-#		glClearColor(0.3, 0.3, 0.3, 1)
-#		glClear(GL_COLOR_BUFFER_BIT)
+		self.renderer.pre_render()
 
 		self.renderer.render(self.world)
 
-#		self.win.swap_buffer()
+		self.renderer.post_render()
+
+		self.win.swap_buffer()

@@ -15,8 +15,4 @@ class move(system.system):
 		pos = entity.get_component('pos')
 		speed = entity.get_component('speed')
 
-		pos.x += speed.x * app.delta
-		pos.y += speed.y * app.delta
-		pos.z += speed.z * app.delta
-
-		print('move pos', pos.x, pos.y, pos.z)
+		pos.value += (speed.value * app.delta)

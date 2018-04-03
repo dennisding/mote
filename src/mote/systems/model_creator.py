@@ -41,14 +41,10 @@ class model_creator(system.system):
 		b = numpy.array([(-1.0, -1, 0), (1, -1, 0), (0, 1, 0)], dtype = numpy.float32)
 		glBufferData(GL_ARRAY_BUFFER, b.nbytes, b.tobytes(), GL_STATIC_DRAW)
 
-		print('size==', glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE))
-
-#		program = self.create_shader()
 		program = self.create_program()
 
 		glEnableVertexAttribArray(0)
 		glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer)
-#		glUseProgram(program)
 		program.use()
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None);

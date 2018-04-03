@@ -6,6 +6,7 @@ import world
 from mote import entity
 
 camera = None
+model = None
 counter = 0
 
 def key_callback(key, pressed):
@@ -25,9 +26,11 @@ def key_callback(key, pressed):
 			zdelta -= speed
 
 	if zdelta or xdelta:
-		camera.add_component('speed', x = xdelta, z = zdelta)
+#		camera.add_component('speed', x = xdelta, z = zdelta)
+		model.add_component('speed', x = xdelta, y = zdelta)
 	else:
-		camera.del_component('speed')
+		model.del_component('speed')
+#		camera.del_component('speed')
 
 #	global counter
 #	counter += 1
@@ -54,11 +57,17 @@ def add_model():
 
 	e.add_component('pos')
 
-	e.add_component('model_loader', res = 'char/test.model')
+	e.add_component('visible')
+	e.add_component('model_loader', res = 'char/100')
 
 	world.add_entity(e)
+	world.set_scene(e)
+
+	global model
+	model = e
 
 def add_gui():
+	return
 	# layers
 	e = entity.entity('dialog')
 
@@ -84,4 +93,4 @@ def start():
 
 	add_camera()
 	add_model()
-	add_gui()
+#	add_gui()

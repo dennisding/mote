@@ -1,8 +1,23 @@
 # -*- coding:utf-8 -*-
 
+from .. import math3d
+
 from OpenGL.GL import *
 
 _programs = {} # caches
+
+_uniform_getters = {} # {name:getter}
+_uniform_setters = {} # {name:setter}
+
+def register_setters():
+	_uniform_setters[GL_FLOAT_MAT4] = glUniformMatrix4fv
+
+def register_getters():
+	_uniform_getters[b'mvp'] = lambda world, visual: visual.world_transform.tobytes()
+#	_uniform_getters[b'mvp'] = lambda world, visual: math3d.translation(x = 1).tobytes()
+
+register_getters()
+register_setters()
 
 class program:
 	def __init__(self, vs_name, vs, ps_name, ps):
@@ -13,9 +28,14 @@ class program:
 		self.create_program(vs, ps)
 
 	# public interface
-	def use(self):
-		print('use program', self.program)
+	def use(self, world, visual):
 		glUseProgram(self.program)
+
+		self.setup_uniforms(world, visual)
+
+	def setup_uniforms(self, world, visual):
+		for index, getter, setter in self.uniforms:
+			setter(index, 1, GL_TRUE, getter(world, visual))
 
 	def create_program(self, vs_source, ps_source):
 		vs = self.create_vertex_shader(vs_source)
@@ -30,6 +50,12 @@ class program:
 
 	def parse_infos(self):
 		self.valid = True
+
+		self.uniforms = [] # [(index, getter, setter)]
+		count = glGetProgramiv(self.program, GL_ACTIVE_UNIFORMS)
+		for index in range(count):
+			name, index, type = glGetActiveUniform(self.program, index)
+			self.uniforms.append((index-1, _uniform_getters[name], _uniform_setters[type]))
 
 	def is_valid(self):
 		return self.valid
@@ -47,7 +73,7 @@ class program:
 
 		log = glGetShaderInfoLog(shader)
 		if log:
-			print('compile error in: %s\r\n'%(name, log))
+			print('compile error in: %s\r\n%s'%(name, log))
 			return None
 
 		return shader
@@ -55,7 +81,6 @@ class program:
 	def link_program(self, vs, ps):
 		program = glCreateProgram()
 
-		print('attach shader!!!!!!', vs, ps)
 		glAttachShader(program, vs)
 		glAttachShader(program, ps)
 		glLinkProgram(program)

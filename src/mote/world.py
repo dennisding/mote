@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 
 from . import math3d
-from . import res_mgr
 from . import entity_mgr
 from . import blackboard
 
@@ -30,6 +29,7 @@ class world:
 		self.add_system('move')
 		self.add_system('model_loader')
 		self.add_system('model_creator')
+		self.add_system('visual_creator')
 
 	def tick(self):
 		self.pre_tick()
@@ -40,6 +40,9 @@ class world:
 		self.post_tick()
 
 	def pre_tick(self):
+		self.update_transform()
+
+	def update_transform(self):
 		transform = math3d.matrix()
 
 		# update the pos
@@ -48,7 +51,8 @@ class world:
 
 	def post_tick(self):
 		self.entity_mgr.post_tick()
-		res_mgr.clear_task_result()
+
+		self.update_transform()
 
 	def tick_system(self, system):
 		if not system.pre_tick():
@@ -79,3 +83,6 @@ class world:
 
 	def set_gui_root(self, entity):
 		self.blackboard.gui = entity
+
+	def set_scene(self, scene):
+		self.blackboard.scene = scene

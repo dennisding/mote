@@ -3,5 +3,7 @@
 from . import component
 
 class visible(component.component):
-	def __init__(self, value = True):
-		self.value = value
+	def __init__(self):
+		self.world_transform = None
+		self.vertex = None
+		self.program = None
