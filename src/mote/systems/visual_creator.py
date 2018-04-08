@@ -43,6 +43,7 @@ class visual_creator(system.system):
 		return vertex_array
 
 	def create_program(self, res):
+		print('create program', res)
 		vs = b'''
 #version 430 core
 layout(location = 0) in vec3 vertexPosition_modelspace;

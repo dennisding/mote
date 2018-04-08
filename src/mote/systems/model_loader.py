@@ -14,10 +14,10 @@ class model_loader(system.system):
 		print('tick model loader')
 		loader = entity.get_component('model_loader')
 
-		entity.del_component('model_loader')
-
 		task_id = res_mgr.gen_task(lambda : self.loading_res(loader.res))
 		entity.add_component('visual_creator', task_id = task_id)
+
+		entity.del_component('model_loader')
 
 	def loading_res(self, res):
 		result = {}

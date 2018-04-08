@@ -28,7 +28,7 @@ class world:
 	def init_systems(self):
 		self.add_system('move')
 		self.add_system('model_loader')
-		self.add_system('model_creator')
+#		self.add_system('model_creator')
 		self.add_system('visual_creator')
 
 	def tick(self):

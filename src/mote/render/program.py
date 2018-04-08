@@ -54,8 +54,8 @@ class program:
 		self.uniforms = [] # [(index, getter, setter)]
 		count = glGetProgramiv(self.program, GL_ACTIVE_UNIFORMS)
 		for index in range(count):
-			name, index, type = glGetActiveUniform(self.program, index)
-			self.uniforms.append((index-1, _uniform_getters[name], _uniform_setters[type]))
+			name, _id, type = glGetActiveUniform(self.program, index)
+			self.uniforms.append((index, _uniform_getters[name], _uniform_setters[type]))
 
 	def is_valid(self):
 		return self.valid

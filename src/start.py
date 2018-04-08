@@ -13,7 +13,7 @@ def key_callback(key, pressed):
 	zdelta = 0
 	xdelta = 0
 
-	speed = 1
+	speed = 0.5
 
 	if pressed:
 		if key == 'A':
